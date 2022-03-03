@@ -1,0 +1,30 @@
+.button {
+    height: 100%;
+    width: min-content;
+    white-space: nowrap;
+    padding: .5rem 1rem;
+    font-size: inherit;
+    background-color: white;
+    border-radius: var(--borderRadius);
+    border: 1px solid lightgray;
+    cursor: pointer;
+    font-weight: 600;
+    transition: box-shadow .1s;
+}
+
+.button:hover {
+    box-shadow: 0 3px 5px -3px grey;
+}
+
+.button:active div {
+    display: inline-block;
+    transform: translateY(2px);
+}
+
+.button:hover:disabled {
+    box-shadow: unset;
+}
+
+.button:active:disabled div {
+    transform: unset;
+}

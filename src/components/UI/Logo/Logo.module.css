@@ -1,0 +1,13 @@
+.root {
+    /*position: relative;*/
+    height: calc(60px - 1.4rem);
+    width: 100%;
+    margin: 0 2rem;
+    cursor: pointer;
+}
+
+.root img {
+    /*position: absolute;*/
+    max-width: 100%;
+    height: 100%;
+}

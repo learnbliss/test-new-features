@@ -1,0 +1,31 @@
+.post {
+    background: white;
+    padding: 1rem;
+    border-radius: var(--borderRadius);
+    margin: 1rem 0;
+}
+
+.post h3 {
+    margin: 1rem 0;
+}
+
+.head {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1rem;
+    margin: 1rem 0;
+    align-items: baseline;
+}
+
+.headId {
+    font-size: .8rem;
+}
+
+.date {
+    font-style: italic;
+}
+
+.text {
+    line-height: 1.7;
+}
+

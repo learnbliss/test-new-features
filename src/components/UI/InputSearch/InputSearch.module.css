@@ -1,0 +1,35 @@
+.label {
+    min-width: 300px;
+    height: 100%;
+}
+
+.input {
+    height: 100%;
+    width: 100%;
+    font-size: inherit;
+    padding: .5rem .5rem .5rem 30px;
+    border: 1px solid transparent;
+    background-color: rgba(1, 1, 1, .1);
+    border-radius: var(--borderRadius);
+    outline: none;
+    transition: background-color .3s, box-shadow .3s, border .3s;
+}
+
+.input:hover, .input:focus {
+    background-color: white;
+    box-shadow: 0 0 2px 4px #FCE9D0;
+}
+
+.input:hover {
+    border: 1px solid #FEDCB0;
+}
+
+.input:focus {
+    border: 1px solid #E4A04A;
+}
+
+.input:focus::placeholder {
+    transform: translateX(1rem);
+    opacity: 0;
+    transition: opacity .2s, transform .2s;
+}

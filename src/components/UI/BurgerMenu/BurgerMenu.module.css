@@ -1,0 +1,15 @@
+.root {
+    cursor: pointer;
+    width: 25px;
+    height: 20px;
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-gap: 6px;
+    align-items: center;
+}
+
+.root > div {
+    height: 2px;
+    background: black;
+}
+
