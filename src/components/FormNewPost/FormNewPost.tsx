@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from "../NewPost/NewPost.module.css";
+import styles from './FormNewPost.module.css'
 import Button from "../UI/Button/Button";
 import useInput from "../../hooks/useInput";
 import {IPost} from "../../types";

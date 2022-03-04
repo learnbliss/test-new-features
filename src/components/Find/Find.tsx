@@ -9,7 +9,6 @@ interface FindProps {
 
 const Find: React.FC<FindProps> = () => {
 
-    // const [value, setValue] = useState('');
     const {value, onChange} = useInput('')
     const debounce = useDebounce(value, 1000)
 

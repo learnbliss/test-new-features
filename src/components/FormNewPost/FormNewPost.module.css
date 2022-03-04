@@ -1,0 +1,74 @@
+.form {
+    display: grid;
+    grid-gap: 1rem;
+}
+
+.head {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    justify-items: end;
+    grid-gap: 1rem;
+}
+
+.head > input {
+    font-size: 1.5rem;
+}
+
+.author {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.author > label {
+    grid-column: 2/2;
+}
+
+.label {
+    display: grid;
+    grid-gap: .5rem;
+    color: red;
+    position: relative;
+}
+
+.input {
+    font-size: inherit;
+    border: 0;
+    outline: none;
+    padding: .2rem 1rem;
+    /*box-shadow: 0 0 1px 0 grey;*/
+    /*border-radius: var(--borderRadius);*/
+}
+
+.input:focus {
+
+}
+
+.input::placeholder {
+    color: gray;
+    transition: color .1s;
+}
+
+.input:focus::placeholder {
+    color: lightgray;
+}
+
+.textarea {
+    resize: none;
+    max-width: calc(640px - 2rem);
+    height: 260px;
+    /*box-shadow: 0 0 1px 0 grey;*/
+    /*border-radius: var(--borderRadius);*/
+    /*padding: .5rem;*/
+}
+
+.error::placeholder {
+    border-bottom: 1px solid red;
+    padding-bottom: 2px;
+}
+
+.errorMessage {
+    position: absolute;
+    top: 2rem;
+    left: 1rem;
+    z-index: 99;
+}

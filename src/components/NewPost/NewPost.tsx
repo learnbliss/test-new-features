@@ -5,6 +5,7 @@ import {useAppDispatch, useAppSelector} from "../../redux/hooks";
 import {postsSelector} from "../../redux/selectors/postSelectors";
 import {setEditMode} from "../../redux/reducers/postSlice";
 import FormNewPost from "../FormNewPost/FormNewPost";
+import BackDrop from "../UI/BackDrop/BackDrop";
 
 interface NewPostProps {
 
@@ -23,11 +24,12 @@ const NewPost: React.FC<NewPostProps> = () => {
     return (
         <>
             <Button buttonName={'Новая запись'} onClick={toggleEditModeNewPost} disabled={editMode}/>
-            {editMode && <div className={styles.backDrop}>
-                <div className={styles.newPost}>
-                    <FormNewPost/>
-                </div>
-            </div>}
+            {editMode &&
+                <BackDrop>
+                    <div className={styles.newPost}>
+                        <FormNewPost/>
+                    </div>
+                </BackDrop>}
         </>
     );
 };
