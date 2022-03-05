@@ -6,6 +6,7 @@ import {IPost} from "../../types";
 import {setEditMode} from "../../redux/reducers/postSlice";
 import {addNewPost} from "../../redux/actionCreators";
 import {useAppDispatch} from "../../redux/hooks";
+import {UseConfirm} from "../../hooks/useConfirm";
 
 interface FormNewPostProps {
 
@@ -17,9 +18,7 @@ const FormNewPost: React.FC<FormNewPostProps> = () => {
     const header = useInput('', true)
     const author = useInput('', true)
     const article = useInput('', true)
-
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault()
+    const saveConfirm = UseConfirm(() => {
         const post: IPost = {
             id: '',
             title: header.value,
@@ -28,13 +27,16 @@ const FormNewPost: React.FC<FormNewPostProps> = () => {
             date: new Date()
         }
         dispatch(addNewPost(post))
-        dispatch(setEditMode())
+    }, 'Добавить новую запись?')
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault()
+        saveConfirm();
     }
-
     const setDisable = !(header.value && author.value && article.value)
+    const cancelConfirm = UseConfirm(() => dispatch(setEditMode()), 'Хотите всё отменить?')
     const cancelEditMode = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
-        dispatch(setEditMode())
+        cancelConfirm()
     }
 
     return (
@@ -47,7 +49,7 @@ const FormNewPost: React.FC<FormNewPostProps> = () => {
                     {header.error && <span className={styles.errorMessage}>{header.error}</span>}
                 </label>
                 <Button buttonName={'Отмена'} onClick={cancelEditMode}/>
-                <Button buttonName={'Сохранить'} type={'submit'} disabled={setDisable}/>
+                <Button buttonName={'Сохранить'} onClick={handleSubmit} type={'submit'} disabled={setDisable}/>
             </div>
             <div className={styles.author}>
                 <label className={styles.label}>

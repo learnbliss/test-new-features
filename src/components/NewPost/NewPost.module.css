@@ -8,5 +8,5 @@
     margin: 1rem;
     max-height: 390px;
     height: 100%;
-    box-shadow: 0 0 2px 1px white;
+    box-shadow: var(--boxShadow);
 }

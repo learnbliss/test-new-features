@@ -1,8 +1,10 @@
 import { configureStore, ThunkAction, Action, combineReducers } from '@reduxjs/toolkit';
 import postSlice from "./reducers/postSlice";
+import ConfirmSlice from "./reducers/confirmSlice";
 
 const rootReducer = combineReducers({
-    post: postSlice
+    post: postSlice,
+    confirm: ConfirmSlice
 })
 
 export const setupStore = () => {

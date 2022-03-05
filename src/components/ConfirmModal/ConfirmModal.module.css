@@ -1,0 +1,21 @@
+.root {
+    background-color: white;
+    padding: 1rem;
+    border-radius: var(--borderRadius);
+    display: grid;
+    grid-gap: 1rem;
+    justify-items: center;
+    box-shadow: var(--boxShadow);
+    min-width: 250px;
+}
+
+.confirm {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1rem;
+}
+
+.confirm button {
+    width: 100%;
+    min-width: 100px;
+}

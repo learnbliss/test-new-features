@@ -35,8 +35,6 @@
     border: 0;
     outline: none;
     padding: .2rem 1rem;
-    /*box-shadow: 0 0 1px 0 grey;*/
-    /*border-radius: var(--borderRadius);*/
 }
 
 .input:focus {
@@ -56,9 +54,6 @@
     resize: none;
     max-width: calc(640px - 2rem);
     height: 260px;
-    /*box-shadow: 0 0 1px 0 grey;*/
-    /*border-radius: var(--borderRadius);*/
-    /*padding: .5rem;*/
 }
 
 .error::placeholder {

@@ -2,6 +2,7 @@
 :root {
   --beige: #FFF4E2;
   --borderRadius: 8px;
+  --boxShadow: inset 0 0 3px 0 black;
 }
 
 * {
