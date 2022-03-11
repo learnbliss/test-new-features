@@ -18,6 +18,7 @@ const FormNewPost: React.FC<FormNewPostProps> = () => {
     const header = useInput('', true)
     const author = useInput('', true)
     const article = useInput('', true)
+    const setDisable = !(header.value && author.value && article.value)
     const saveConfirm = UseConfirm(() => {
         const post: IPost = {
             id: '',
@@ -26,13 +27,12 @@ const FormNewPost: React.FC<FormNewPostProps> = () => {
             text: article.value,
             date: new Date()
         }
-        dispatch(addNewPost(post))
+        !setDisable && dispatch(addNewPost(post))
     }, 'Добавить новую запись?')
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
         saveConfirm();
     }
-    const setDisable = !(header.value && author.value && article.value)
     const cancelConfirm = UseConfirm(() => dispatch(setEditMode()), 'Хотите всё отменить?')
     const cancelEditMode = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()

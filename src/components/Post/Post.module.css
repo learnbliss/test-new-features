@@ -11,13 +11,35 @@
 
 .head {
     display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-gap: 1rem;
+    justify-items: end;
+    align-items: baseline;
+}
+
+.head span {
+    cursor: pointer;
+    transition: transform .1s;
+    user-select: none;
+}
+
+.head span:hover {
+    transform: scale(1.2);
+}
+
+.head span:active {
+    color: gray;
+}
+
+.author {
+    display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 1rem;
     margin: 1rem 0;
     align-items: baseline;
 }
 
-.headId {
+.postId {
     font-size: .8rem;
 }
 

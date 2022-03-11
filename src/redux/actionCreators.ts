@@ -4,6 +4,7 @@ import {IPost} from "../types";
 import axios from "axios";
 import {v4 as uuid} from 'uuid';
 import {limitSelector, totalCountSelector} from "./selectors/postSelectors";
+import {capitalizeFirstLetter} from "../utils";
 
 export const fetchPosts = (page = 1) => async (dispatch: AppDispatch, getState: () => RootState) => {
     const state = getState()
@@ -52,11 +53,24 @@ export const fetchPosts = (page = 1) => async (dispatch: AppDispatch, getState: 
 //после добавление нового поста, очищаем массив постов и загружаем заново с 1 страницы
 export const addNewPost = (post: IPost) => async (dispatch: AppDispatch) => {
     post.id = uuid();
+    post.text = capitalizeFirstLetter(post.text)
+    post.author = capitalizeFirstLetter(post.author)
+    post.title = capitalizeFirstLetter(post.title)
     try {
         await axios.post('http://localhost:3004/posts', post)
         dispatch(postSlice.actions.clearPosts())
         dispatch(fetchPosts(1))
     } catch (e) {
         console.error(e)
+    }
+}
+
+export const deletePost = (id: string) => async (dispatch: AppDispatch) => {
+    try {
+        await axios.delete<IPost[]>(`http://localhost:3004/posts/${id}`);
+        dispatch(postSlice.actions.clearPosts())
+        dispatch(fetchPosts(1))
+    } catch (e) {
+        dispatch(postSlice.actions.fetchPostsError(e.message))
     }
 }

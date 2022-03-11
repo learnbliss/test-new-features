@@ -47,7 +47,7 @@ export const postSlice = createSlice({
         },
         clearPosts: (state) => {
             state.posts = []
-        }
+        },
     },
     // extraReducers: {
     //     [fetchPosts.pending.type]: (state) => {
