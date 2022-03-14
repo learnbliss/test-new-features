@@ -1,22 +1,19 @@
 import {AppDispatch, RootState} from "./store";
-import {postSlice} from "./reducers/postSlice";
+import {postSlice, setEditMode, setNextPage} from "./reducers/postSlice";
 import {IPost} from "../types";
 import axios from "axios";
 import {v4 as uuid} from 'uuid';
-import {limitSelector, totalCountSelector} from "./selectors/postSelectors";
+import {limitSelector, pageSelector} from "./selectors/postSelectors";
 import {capitalizeFirstLetter} from "../utils";
 
 export const fetchPosts = (page = 1) => async (dispatch: AppDispatch, getState: () => RootState) => {
     const state = getState()
-    const totalCount = totalCountSelector(state)
     const limit = limitSelector(state) | 5
     try {
         dispatch(postSlice.actions.fetchPosts())
         const response = await axios.get<IPost[]>(`http://localhost:3004/posts?_page=${page}&_limit=${limit}&_sort=date&_order=desc`)
+        dispatch(postSlice.actions.setTotalCount(response.headers['x-total-count']))
         dispatch(postSlice.actions.fetchPostsSuccess(response.data))
-        if (!totalCount) {
-            dispatch(postSlice.actions.setTotalCount(response.headers['x-total-count']))
-        }
     } catch (e) {
         dispatch(postSlice.actions.fetchPostsError(e.message))
     }
@@ -60,6 +57,7 @@ export const addNewPost = (post: IPost) => async (dispatch: AppDispatch) => {
         await axios.post('http://localhost:3004/posts', post)
         dispatch(postSlice.actions.clearPosts())
         dispatch(fetchPosts(1))
+        dispatch(setEditMode())
     } catch (e) {
         console.error(e)
     }
@@ -73,4 +71,12 @@ export const deletePost = (id: string) => async (dispatch: AppDispatch) => {
     } catch (e) {
         dispatch(postSlice.actions.fetchPostsError(e.message))
     }
+}
+
+export const getNextPage = () => (dispatch: AppDispatch, getState: () => RootState) => {
+    const state = getState()
+    const page = pageSelector(state)
+    const newPage = page + 1
+    dispatch(setNextPage(newPage))
+    dispatch(fetchPosts(newPage))
 }

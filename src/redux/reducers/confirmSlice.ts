@@ -18,7 +18,7 @@ export const confirmSlice = createSlice({
   reducers: {
     showConfirm: (state, action: PayloadAction<string>) => {
       state.isView = true;
-      state.message = action.payload
+      state.message = action.payload;
     },
     hideConfirm: (state) => {
       state.isView = false;
@@ -26,7 +26,7 @@ export const confirmSlice = createSlice({
       state.message = '';
     },
     toggleConfirm: (state, action: PayloadAction<boolean>) => {
-      state.isPositive = action.payload
+      state.isPositive = action.payload;
     }
   },
 })

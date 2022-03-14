@@ -26,7 +26,7 @@ export const postSlice = createSlice({
     initialState,
     reducers: {
         fetchPosts: (state) => {
-          state.isLoading = true
+          state.isLoading = true;
         },
         fetchPostsSuccess: (state, action: PayloadAction<IPost[]>) => {
           state.isLoading = false;
@@ -34,19 +34,20 @@ export const postSlice = createSlice({
           state.error = '';
         },
         fetchPostsError: (state, action: PayloadAction<string>) => {
-          state.error = action.payload
+          state.error = action.payload;
         },
         setTotalCount: (state, action: PayloadAction<string>) => {
-            state.totalCount = +action.payload
+            state.totalCount = +action.payload;
         },
-        setTodoPage: (state, action: PayloadAction<number>) => {
-            state.page = action.payload
+        setNextPage: (state, action: PayloadAction<number>) => {
+            state.page = action.payload;
         },
         setEditMode: (state) => {
-            state.editMode = !state.editMode
+            state.editMode = !state.editMode;
         },
         clearPosts: (state) => {
-            state.posts = []
+            state.posts = [];
+            state.page = 1;
         },
     },
     // extraReducers: {
@@ -64,7 +65,6 @@ export const postSlice = createSlice({
     // }
 })
 
-export const {setTodoPage, setEditMode, clearPosts } = postSlice.actions
-// export const { setTodoPage } = postSlice.actions
+export const {setNextPage, setEditMode, clearPosts } = postSlice.actions
 
 export default postSlice.reducer

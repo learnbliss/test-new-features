@@ -1,12 +1,13 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef} from 'react';
 import styles from './PostsList.module.css'
 import Post from "../Post/Post";
 import {useAppDispatch, useAppSelector} from "../../redux/hooks";
 import {maxPagesSelector, postsSelector} from "../../redux/selectors/postSelectors";
-import {fetchPosts} from "../../redux/actionCreators";
+import {fetchPosts, getNextPage} from "../../redux/actionCreators";
 import Loader from '../UI/Loader/Loader';
-import {setTodoPage} from "../../redux/reducers/postSlice";
-import {useInView} from "react-hook-inview";
+import {confirmSelector} from "../../redux/selectors/confirmSelectors";
+import ConfirmModal from "../ConfirmModal/ConfirmModal";
+import useOnScreen from "../../hooks/useOnScreen";
 
 interface PostsListProps {
 
@@ -15,58 +16,47 @@ interface PostsListProps {
 const PostsList: React.FC<PostsListProps> = () => {
 
     const {posts, isLoading, error, page} = useAppSelector(postsSelector)
+    const {isView} = useAppSelector(confirmSelector)
     const maxPages = useAppSelector(maxPagesSelector)
     const dispatch = useAppDispatch()
-    const [refForObserve, isVisible] = useInView({
-        threshold: 1,
-    })
-// test
-//     const observer:any = useRef<HTMLElement>();
-//     const lastPostRef = useCallback(node => {
-//         if (isLoading) return
-//         if (observer.current) observer.current.disconnect()
-//         observer.current = new IntersectionObserver(entries => {
-//             if (entries[0].isIntersecting && posts) {
-//                 console.log('visible')
-//                 dispatch(setTodoPage(page + 1))
-//             }
-//         })
-//         if (node) observer.current.observe(node)
-//         console.log(node)
-//     }, [isLoading, posts]);
-//     console.log('lastPostRef: ', lastPostRef);
-// test
+    const elementRef = useRef<HTMLDivElement>(null)
+    const isOnScreen = useOnScreen(elementRef, {
+        threshold: 1
+    });
+
     useEffect(() => {
-        dispatch(fetchPosts(page))
-    }, [page]);
+        dispatch(fetchPosts())
+    }, []);
     useEffect(() => {
-        if (isVisible) {
-            page < maxPages && dispatch(setTodoPage(page + 1))
+        if (isOnScreen && page < maxPages) {
+            dispatch(getNextPage())
         }
-    }, [isVisible])
+    }, [isOnScreen])
 
     if (isLoading && posts.length === 0) return <Loader/>
-
     if (error) return <h1>Ошибка загрузки постов</h1>
 
     return (
         <>
             <section className={styles.postList}>
-                <h1>Articles:</h1>
-                {posts.map(post => (
-                    <Post key={post.id}
-                          id={post.id}
-                          title={post.title}
-                          author={post.author}
-                          text={post.text}
-                          date={post.date}/>
+                {posts.length === 0 ?
+                    <h3>Посты отсутствуют на сервере</h3> :
+                    <h1>Посты:</h1>
+                }
+                {posts.map((post, i) => (
+                    <div key={post.id}>
+                        <Post id={post.id}
+                              title={post.title}
+                              author={post.author}
+                              text={post.text}
+                              date={post.date}/>
+                        {i === posts.length - 1 &&
+                            <div style={{background: 'red'}} ref={elementRef} className={styles.observe}/>}
+                    </div>
                 ))}
             </section>
-            {isLoading ? <Loader/>
-                : <div ref={refForObserve} className={styles.observe}/>
-            }
+            {isView && <ConfirmModal/>}
         </>
     );
 };
-
 export default PostsList;

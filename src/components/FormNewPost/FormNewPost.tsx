@@ -6,20 +6,21 @@ import {IPost} from "../../types";
 import {setEditMode} from "../../redux/reducers/postSlice";
 import {addNewPost} from "../../redux/actionCreators";
 import {useAppDispatch} from "../../redux/hooks";
-import {UseConfirm} from "../../hooks/useConfirm";
+import {useDisableBodyScroll} from "../../hooks/useDisableBodyScroll";
 
 interface FormNewPostProps {
 
 }
 
 const FormNewPost: React.FC<FormNewPostProps> = () => {
-
+    useDisableBodyScroll()
     const dispatch = useAppDispatch()
     const header = useInput('', true)
     const author = useInput('', true)
     const article = useInput('', true)
     const setDisable = !(header.value && author.value && article.value)
-    const saveConfirm = UseConfirm(() => {
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault()
         const post: IPost = {
             id: '',
             title: header.value,
@@ -28,15 +29,10 @@ const FormNewPost: React.FC<FormNewPostProps> = () => {
             date: new Date()
         }
         !setDisable && dispatch(addNewPost(post))
-    }, 'Добавить новую запись?')
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault()
-        saveConfirm();
     }
-    const cancelConfirm = UseConfirm(() => dispatch(setEditMode()), 'Хотите всё отменить?')
     const cancelEditMode = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
-        cancelConfirm()
+        dispatch(setEditMode())
     }
 
     return (
