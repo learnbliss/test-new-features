@@ -4,6 +4,7 @@ import {IPost} from "../../types";
 import {deletePost} from "../../redux/actionCreators";
 import {useAppDispatch} from "../../redux/hooks";
 import {UseConfirm} from "../../hooks/useConfirm";
+import {updatePost} from "../../redux/reducers/postSlice";
 
 interface PostProps extends IPost {
 }
@@ -22,11 +23,17 @@ const Post: React.FC<PostProps> = ({id, title, author, text, date}) => {
             dispatch(deletePost(id))
         }
     }
+    const confirmHandleEdit = async () => {
+      const isConfirmed = await openConfirm('Редактировать пост?')
+        if (isConfirmed) {
+            dispatch(updatePost(id))
+        }
+    }
     return (
         <article className={styles.post}>
             <div className={styles.head}>
                 <h3>{title}</h3>
-                <span className="material-icons">edit</span>
+                <span onClick={confirmHandleEdit} className="material-icons">edit</span>
                 <span onClick={confirmHandleDelete} className="material-icons">delete</span>
             </div>
             <div className={styles.date}>Дата: {dateNormalize}</div>

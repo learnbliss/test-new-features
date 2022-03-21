@@ -9,6 +9,7 @@ export interface postState {
     limit: number;
     totalCount: number;
     editMode: boolean;
+    editPostId: string | null;
 }
 
 const initialState: postState = {
@@ -18,7 +19,8 @@ const initialState: postState = {
     page: 1,
     limit: 5,
     totalCount: 0,
-    editMode: false
+    editMode: false,
+    editPostId: null
 }
 
 export const postSlice = createSlice({
@@ -42,13 +44,18 @@ export const postSlice = createSlice({
         setNextPage: (state, action: PayloadAction<number>) => {
             state.page = action.payload;
         },
-        setEditMode: (state) => {
+        setNewPostMode: (state) => {
             state.editMode = !state.editMode;
         },
         clearPosts: (state) => {
             state.posts = [];
             state.page = 1;
+            state.editPostId = null
         },
+        updatePost: (state, action: PayloadAction<string>) => {
+            state.editMode = true;
+            state.editPostId = action.payload
+        }
     },
     // extraReducers: {
     //     [fetchPosts.pending.type]: (state) => {
@@ -65,6 +72,6 @@ export const postSlice = createSlice({
     // }
 })
 
-export const {setNextPage, setEditMode, clearPosts } = postSlice.actions
+export const {setNextPage, setNewPostMode, clearPosts, updatePost} = postSlice.actions
 
 export default postSlice.reducer

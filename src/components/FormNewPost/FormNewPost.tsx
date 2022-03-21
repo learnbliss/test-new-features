@@ -3,36 +3,39 @@ import styles from './FormNewPost.module.css'
 import Button from "../UI/Button/Button";
 import useInput from "../../hooks/useInput";
 import {IPost} from "../../types";
-import {setEditMode} from "../../redux/reducers/postSlice";
-import {addNewPost} from "../../redux/actionCreators";
+import {setNewPostMode} from "../../redux/reducers/postSlice";
+import {addNewPost, setUpdatePost} from "../../redux/actionCreators";
 import {useAppDispatch} from "../../redux/hooks";
-import {useDisableBodyScroll} from "../../hooks/useDisableBodyScroll";
 import {UseConfirm} from "../../hooks/useConfirm";
 
 interface FormNewPostProps {
-
+    post?: IPost
 }
 
-const FormNewPost: React.FC<FormNewPostProps> = () => {
-    useDisableBodyScroll()
+const FormNewPost: React.FC<FormNewPostProps> = ({post}) => {
     const dispatch = useAppDispatch()
     const {openConfirm} = UseConfirm()
-    const header = useInput('', true)
-    const author = useInput('', true)
-    const article = useInput('', true)
+    const header = useInput(post?.title || '', true)
+    const author = useInput(post?.author || '', true)
+    const article = useInput(post?.text || '', true)
     const setDisable = !(header.value && author.value && article.value)
+    const inputTouched = !(post?.title !== header.value || post?.author !== author.value || post?.text !== article.value)
     const confirmSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         const isConfirmed = await openConfirm('Сохранить пост?')
         if (isConfirmed) {
-            const post: IPost = {
-                id: '',
+            const editingPost: IPost = {
+                id: post?.id || '',
                 title: header.value,
                 author: author.value,
                 text: article.value,
-                date: new Date()
+                date: post?.date || new Date()
             }
-            !setDisable && dispatch(addNewPost(post))
+            if (post?.id) {
+                dispatch(setUpdatePost(editingPost))
+            } else {
+                dispatch(addNewPost(editingPost))
+            }
         }
     }
 
@@ -40,7 +43,7 @@ const FormNewPost: React.FC<FormNewPostProps> = () => {
         e.preventDefault()
         const isConfirmed = await openConfirm()
         if (isConfirmed) {
-            dispatch(setEditMode())
+            dispatch(setNewPostMode())
         }
     }
 
@@ -54,7 +57,7 @@ const FormNewPost: React.FC<FormNewPostProps> = () => {
                     {header.error && <span className={styles.errorMessage}>{header.error}</span>}
                 </label>
                 <Button buttonName={'Отмена'} onClick={confirmCancelEditMode}/>
-                <Button buttonName={'Сохранить'} type={'submit'} disabled={setDisable}/>
+                <Button buttonName={'Сохранить'} type={'submit'} disabled={inputTouched || setDisable}/>
             </div>
             <div className={styles.author}>
                 <label className={styles.label}>

@@ -1,5 +1,5 @@
 import {AppDispatch, RootState} from "./store";
-import {postSlice, setEditMode, setNextPage} from "./reducers/postSlice";
+import {postSlice, setNewPostMode, setNextPage} from "./reducers/postSlice";
 import {IPost} from "../types";
 import axios from "axios";
 import {v4 as uuid} from 'uuid';
@@ -57,7 +57,7 @@ export const addNewPost = (post: IPost) => async (dispatch: AppDispatch) => {
         await axios.post('http://localhost:3004/posts', post)
         dispatch(postSlice.actions.clearPosts())
         dispatch(fetchPosts(1))
-        dispatch(setEditMode())
+        dispatch(setNewPostMode())
     } catch (e) {
         console.error(e)
     }
@@ -79,4 +79,15 @@ export const getNextPage = () => (dispatch: AppDispatch, getState: () => RootSta
     const newPage = page + 1
     dispatch(setNextPage(newPage))
     dispatch(fetchPosts(newPage))
+}
+
+export const setUpdatePost = (post: IPost) => async (dispatch: AppDispatch) => {
+    try {
+        await axios.put(`http://localhost:3004/posts/${post.id}`, post)
+        dispatch(postSlice.actions.clearPosts())
+        dispatch(fetchPosts(1))
+        dispatch(setNewPostMode())
+    } catch (e) {
+        dispatch(postSlice.actions.fetchPostsError(e.message))
+    }
 }
