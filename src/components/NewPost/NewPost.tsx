@@ -17,12 +17,12 @@ const NewPost: React.FC<NewPostProps> = () => {
     const {editMode} = useAppSelector(postsSelector)
     const dispatch = useAppDispatch()
 
-    const toggleEditModeNewPost = () => dispatch(setEditMode())
     const {openConfirm} = UseConfirm()
-    const newPostConfirm = async () => {
+    const newPostConfirm = async (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault()
         const isConfirmed = await openConfirm('Создать новый пост?')
         if (isConfirmed) {
-            toggleEditModeNewPost()
+            dispatch(setEditMode())
         }
     }
 

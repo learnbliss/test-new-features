@@ -7,6 +7,7 @@ import {setEditMode} from "../../redux/reducers/postSlice";
 import {addNewPost} from "../../redux/actionCreators";
 import {useAppDispatch} from "../../redux/hooks";
 import {useDisableBodyScroll} from "../../hooks/useDisableBodyScroll";
+import {UseConfirm} from "../../hooks/useConfirm";
 
 interface FormNewPostProps {
 
@@ -15,28 +16,36 @@ interface FormNewPostProps {
 const FormNewPost: React.FC<FormNewPostProps> = () => {
     useDisableBodyScroll()
     const dispatch = useAppDispatch()
+    const {openConfirm} = UseConfirm()
     const header = useInput('', true)
     const author = useInput('', true)
     const article = useInput('', true)
     const setDisable = !(header.value && author.value && article.value)
-    const handleSubmit = (e: React.FormEvent) => {
+    const confirmSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
-        const post: IPost = {
-            id: '',
-            title: header.value,
-            author: author.value,
-            text: article.value,
-            date: new Date()
+        const isConfirmed = await openConfirm('Сохранить пост?')
+        if (isConfirmed) {
+            const post: IPost = {
+                id: '',
+                title: header.value,
+                author: author.value,
+                text: article.value,
+                date: new Date()
+            }
+            !setDisable && dispatch(addNewPost(post))
         }
-        !setDisable && dispatch(addNewPost(post))
     }
-    const cancelEditMode = (e: React.MouseEvent<HTMLButtonElement>) => {
+
+    const confirmCancelEditMode = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
-        dispatch(setEditMode())
+        const isConfirmed = await openConfirm()
+        if (isConfirmed) {
+            dispatch(setEditMode())
+        }
     }
 
     return (
-        <form className={styles.form} onSubmit={handleSubmit}>
+        <form className={styles.form} onSubmit={confirmSubmit}>
             <div className={styles.head}>
                 <label className={styles.label}>
                     <input className={`${styles.input} ${header.error && styles.error}`}
@@ -44,8 +53,8 @@ const FormNewPost: React.FC<FormNewPostProps> = () => {
                            maxLength={50} {...header}/>
                     {header.error && <span className={styles.errorMessage}>{header.error}</span>}
                 </label>
-                <Button buttonName={'Отмена'} onClick={cancelEditMode}/>
-                <Button buttonName={'Сохранить'} onClick={handleSubmit} type={'submit'} disabled={setDisable}/>
+                <Button buttonName={'Отмена'} onClick={confirmCancelEditMode}/>
+                <Button buttonName={'Сохранить'} type={'submit'} disabled={setDisable}/>
             </div>
             <div className={styles.author}>
                 <label className={styles.label}>

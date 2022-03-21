@@ -5,8 +5,7 @@ interface openConfirmProps {
     (message?: string): Promise<boolean>
 }
 
-// let resolveCallback: { (arg0: boolean): void; (value: boolean | PromiseLike<boolean>): void; };
-let resolveCallback: { (arg0: boolean): void; (value: boolean | PromiseLike<boolean>): void; };
+let resolveCallback: (booleanArg: boolean) => void
 export const UseConfirm = () => {
     const dispatch = useAppDispatch()
 
@@ -15,13 +14,12 @@ export const UseConfirm = () => {
     }
 
     const setPositive = () => {
-        close()
         resolveCallback(true)
+        close()
     }
 
     const setNegative = () => {
         close()
-        resolveCallback(false)
     }
 
     const openConfirm: openConfirmProps = (message = 'Вы уверены?') => {
