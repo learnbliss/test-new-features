@@ -2,8 +2,8 @@ import React from 'react';
 import styles from './ConfirmModal.module.css'
 import BackDrop from "../UI/BackDrop/BackDrop";
 import Button from "../UI/Button/Button";
-import {useAppDispatch, useAppSelector} from "../../redux/hooks";
-import {toggleConfirm} from "../../redux/reducers/confirmSlice";
+import {UseConfirm} from "../../hooks/useConfirm";
+import {useAppSelector} from "../../redux/hooks";
 import {confirmSelector} from "../../redux/selectors/confirmSelectors";
 
 interface ConfirmModalProps {
@@ -11,11 +11,8 @@ interface ConfirmModalProps {
 
 const ConfirmModal: React.FC<ConfirmModalProps> = () => {
 
-    const dispatch = useAppDispatch()
     const {message} = useAppSelector(confirmSelector)
-
-    const setPositive = () => dispatch(toggleConfirm(true))
-    const setNegative = () => dispatch(toggleConfirm(false))
+    const {setPositive, setNegative} = UseConfirm()
 
     return (
         <BackDrop>

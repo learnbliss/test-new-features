@@ -6,6 +6,7 @@ import {postsSelector} from "../../redux/selectors/postSelectors";
 import {setEditMode} from "../../redux/reducers/postSlice";
 import FormNewPost from "../FormNewPost/FormNewPost";
 import BackDrop from "../UI/BackDrop/BackDrop";
+import {UseConfirm} from "../../hooks/useConfirm";
 
 interface NewPostProps {
 
@@ -16,14 +17,18 @@ const NewPost: React.FC<NewPostProps> = () => {
     const {editMode} = useAppSelector(postsSelector)
     const dispatch = useAppDispatch()
 
-    const toggleEditModeNewPost = (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault()
-        dispatch(setEditMode())
+    const toggleEditModeNewPost = () => dispatch(setEditMode())
+    const {openConfirm} = UseConfirm()
+    const newPostConfirm = async () => {
+        const isConfirmed = await openConfirm('Создать новый пост?')
+        if (isConfirmed) {
+            toggleEditModeNewPost()
+        }
     }
 
     return (
         <>
-            <Button buttonName={'Новая запись'} onClick={toggleEditModeNewPost} disabled={editMode}/>
+            <Button buttonName={'Новая запись'} onClick={newPostConfirm} disabled={editMode}/>
             {editMode &&
                 <BackDrop>
                     <div className={styles.newPost}>

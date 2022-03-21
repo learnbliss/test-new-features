@@ -1,32 +1,35 @@
 import {hideConfirm, showConfirm} from "../redux/reducers/confirmSlice";
-import {useAppDispatch, useAppSelector} from "../redux/hooks";
-import {confirmSelector} from "../redux/selectors/confirmSelectors";
-import {useEffect} from "react";
+import {useAppDispatch} from "../redux/hooks";
 
-interface useConfirmProps {
-    (
-        onConfirm: () => void,
-        message?: string,
-        onCancel?: () => void,
-    ): () => void;
+interface openConfirmProps {
+    (message?: string): Promise<boolean>
 }
 
-export const UseConfirm: useConfirmProps = (onConfirm, message = 'Вы уверены?', onCancel) => {
-
+// let resolveCallback: { (arg0: boolean): void; (value: boolean | PromiseLike<boolean>): void; };
+let resolveCallback: { (arg0: boolean): void; (value: boolean | PromiseLike<boolean>): void; };
+export const UseConfirm = () => {
     const dispatch = useAppDispatch()
-    const {isPositive} = useAppSelector(confirmSelector)
 
-    useEffect(() => {
-        if (isPositive === true) {
-            onConfirm();
-            dispatch(hideConfirm());
-        } else if (isPositive === false) {
-            onCancel && onCancel();
-            dispatch(hideConfirm());
-        }
-    }, [isPositive]);
-
-    return () => {
-        dispatch(showConfirm(message))
+    const close = () => {
+        dispatch(hideConfirm())
     }
+
+    const setPositive = () => {
+        close()
+        resolveCallback(true)
+    }
+
+    const setNegative = () => {
+        close()
+        resolveCallback(false)
+    }
+
+    const openConfirm: openConfirmProps = (message = 'Вы уверены?') => {
+        dispatch(showConfirm(message))
+        return new Promise(setPositive => {
+            resolveCallback = setPositive;
+        })
+    }
+
+    return {openConfirm, setPositive, setNegative}
 }
