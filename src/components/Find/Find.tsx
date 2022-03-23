@@ -12,16 +12,22 @@ interface FindProps {
 
 const Find: React.FC<FindProps> = () => {
     const dispatch = useAppDispatch()
-    const {bind: {value, onChange}, clearInput} = useInput('')
-    const debounce = useDebounce(value, 1000)
+    const {bind: inputProps, clearInput, touched} = useInput('')
+    const debounce = useDebounce(inputProps.value, 1000)
 
     useEffect(() => {
-        dispatch(setSearch(value))
-        dispatch(fetchWithSearch())
+        if (touched) {
+            dispatch(setSearch(inputProps.value))
+            dispatch(fetchWithSearch())
+        }
     }, [debounce]);
 
     return (
-        <InputSearch value={value} onChange={onChange} placeholder={'Поиск'} type={'text'} clearInput={clearInput}/>
+        <InputSearch {...inputProps}
+                     placeholder={'Поиск'}
+                     type={'text'}
+                     clearInput={clearInput}
+        />
     )
 };
 
