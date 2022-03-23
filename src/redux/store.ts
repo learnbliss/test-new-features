@@ -1,10 +1,12 @@
 import { configureStore, ThunkAction, Action, combineReducers } from '@reduxjs/toolkit';
 import postSlice from "./reducers/postSlice";
 import ConfirmSlice from "./reducers/confirmSlice";
+import BurgerMenuSlice from "./reducers/BurgerMenuSlice";
 
 const rootReducer = combineReducers({
     post: postSlice,
-    confirm: ConfirmSlice
+    confirm: ConfirmSlice,
+    burgerMenu: BurgerMenuSlice
 })
 
 export const setupStore = () => {

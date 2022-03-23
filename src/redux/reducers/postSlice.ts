@@ -51,7 +51,7 @@ export const postSlice = createSlice({
         clearPosts: (state) => {
             state.posts = [];
             state.page = 1;
-            // state.editPostId = null
+            state.posts
         },
         updatePost: (state, action: PayloadAction<string>) => {
             state.editMode = true;

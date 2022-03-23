@@ -29,7 +29,7 @@ const FormNewPost: React.FC<FormNewPostProps> = ({post}) => {
                 title: header.value,
                 author: author.value,
                 text: article.value,
-                date: post?.date || new Date()
+                date: new Date()
             }
             if (post?.id) {
                 dispatch(setUpdatePost(editingPost))
