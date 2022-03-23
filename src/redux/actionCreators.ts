@@ -3,15 +3,16 @@ import {postSlice, setNewPostMode, setNextPage} from "./reducers/postSlice";
 import {IPost} from "../types";
 import axios from "axios";
 import {v4 as uuid} from 'uuid';
-import {limitSelector, pageSelector} from "./selectors/postSelectors";
+import {limitSelector, pageSelector, searchSelector} from "./selectors/postSelectors";
 import {capitalizeFirstLetter} from "../utils";
 
 export const fetchPosts = (page = 1) => async (dispatch: AppDispatch, getState: () => RootState) => {
     const state = getState()
-    const limit = limitSelector(state) | 5
+    const limit = limitSelector(state) || 5
+    const search = searchSelector(state)
     try {
         dispatch(postSlice.actions.fetchPosts())
-        const response = await axios.get<IPost[]>(`http://localhost:3004/posts?_page=${page}&_limit=${limit}&_sort=date&_order=desc`)
+        const response = await axios.get<IPost[]>(`http://localhost:3004/posts?_page=${page}&_limit=${limit}&_sort=date&_order=desc&q=${search}`)
         dispatch(postSlice.actions.setTotalCount(response.headers['x-total-count']))
         dispatch(postSlice.actions.fetchPostsSuccess(response.data))
     } catch (e) {
@@ -90,4 +91,9 @@ export const setUpdatePost = (post: IPost) => async (dispatch: AppDispatch) => {
     } catch (e) {
         dispatch(postSlice.actions.fetchPostsError(e.message))
     }
+}
+
+export const fetchWithSearch = () => async (dispatch: AppDispatch) => {
+    dispatch(postSlice.actions.clearPosts())
+    dispatch(fetchPosts(1))
 }

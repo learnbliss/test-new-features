@@ -15,9 +15,9 @@ interface FormNewPostProps {
 const FormNewPost: React.FC<FormNewPostProps> = ({post}) => {
     const dispatch = useAppDispatch()
     const {openConfirm} = UseConfirm()
-    const header = useInput(post?.title || '', true)
-    const author = useInput(post?.author || '', true)
-    const article = useInput(post?.text || '', true)
+    const {bind: header} = useInput(post?.title || '', true)
+    const {bind: author} = useInput(post?.author || '', true)
+    const {bind: article} = useInput(post?.text || '', true)
     const setDisable = !(header.value && author.value && article.value)
     const inputTouched = !(post?.title !== header.value || post?.author !== author.value || post?.text !== article.value)
     const confirmSubmit = async (e: React.FormEvent) => {

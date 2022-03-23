@@ -10,6 +10,7 @@ export interface postState {
     totalCount: number;
     editMode: boolean;
     editPostId: string | null;
+    search: string;
 }
 
 const initialState: postState = {
@@ -20,7 +21,8 @@ const initialState: postState = {
     limit: 5,
     totalCount: 0,
     editMode: false,
-    editPostId: null
+    editPostId: null,
+    search: ''
 }
 
 export const postSlice = createSlice({
@@ -51,11 +53,13 @@ export const postSlice = createSlice({
         clearPosts: (state) => {
             state.posts = [];
             state.page = 1;
-            state.posts
         },
         updatePost: (state, action: PayloadAction<string>) => {
             state.editMode = true;
             state.editPostId = action.payload
+        },
+        setSearch: (state, action: PayloadAction<string>) => {
+            state.search = action.payload
         }
     },
     // extraReducers: {
@@ -73,6 +77,6 @@ export const postSlice = createSlice({
     // }
 })
 
-export const {setNextPage, setNewPostMode, clearPosts, updatePost} = postSlice.actions
+export const {setNextPage, setNewPostMode, clearPosts, updatePost, setSearch} = postSlice.actions
 
 export default postSlice.reducer

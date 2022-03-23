@@ -15,7 +15,8 @@ const useInput = (initialValue = '', required?: true) => {
             setError('')
         }
     }
-    return {value, onChange, onBlur, error};
+    const clearInput = () => setValue('')
+    return {bind: {value, onChange, onBlur, error}, clearInput};
 }
 
 export default useInput

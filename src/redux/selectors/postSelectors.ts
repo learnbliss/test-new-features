@@ -14,3 +14,4 @@ export const maxPagesSelector = createSelector(
 export const pageSelector = (state: RootState) => state.post.page
 export const editPostIdSelector = (state: RootState) => state.post.editPostId
 export const postIdSelector = (id: string | null) => (state: RootState) => state.post.posts.find(post => id && post.id === id)
+export const searchSelector = (state: RootState) => state.post.search
