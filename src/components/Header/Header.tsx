@@ -5,15 +5,16 @@ import Logo from "../UI/Logo/Logo";
 import Find from "../Find/Find";
 import NewPost from "../NewPost/NewPost";
 import Login from '../Login/Login';
-import BurgerMenu from "../BurgerMenu/BurgerMenu";
 import {useAppSelector} from "../../redux/hooks";
-import {burgerMenuSelector} from "../../redux/selectors/burgerMenuSelectors";
+import {burgerMenuSelector} from "../../redux/selectors/UISelectors";
+import BurgerMenu from "../BurgerMenu/BurgerMenu";
 
 interface HeaderProps {
 
 }
 
 const Header: React.FC<HeaderProps> = () => {
+    console.log('render header')
     const isViewBurger = useAppSelector(burgerMenuSelector)
     return (
         <header className={styles.root}>

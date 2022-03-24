@@ -10,3 +10,28 @@
     height: 100%;
     box-shadow: var(--boxShadow);
 }
+
+.notMobileView {
+    display: inline;
+}
+
+.mobileView {
+    display: none;
+    padding: 0 1rem;
+}
+
+@media all and (max-width: 850px) {
+    .mobileView {
+        display: inline;
+    }
+
+    .notMobileView {
+        display: none;
+    }
+}
+
+@media all and (max-width: 620px) {
+  .newPost {
+      margin: 0;
+  }
+}

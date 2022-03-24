@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './BurgerMenuIcon.module.css'
 import {useAppDispatch} from "../../../redux/hooks";
-import {toggleViewBurger} from "../../../redux/reducers/BurgerMenuSlice";
+import {toggleViewBurger} from "../../../redux/reducers/UISlice";
 
 interface BurgerMenuIconProps {
 

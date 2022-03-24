@@ -83,6 +83,9 @@ export const getNextPage = () => (dispatch: AppDispatch, getState: () => RootSta
 }
 
 export const setUpdatePost = (post: IPost) => async (dispatch: AppDispatch) => {
+    post.text = capitalizeFirstLetter(post.text)
+    post.author = capitalizeFirstLetter(post.author)
+    post.title = capitalizeFirstLetter(post.title)
     try {
         await axios.put(`http://localhost:3004/posts/${post.id}`, post)
         dispatch(postSlice.actions.clearPosts())

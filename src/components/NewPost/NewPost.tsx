@@ -30,7 +30,10 @@ const NewPost: React.FC<NewPostProps> = () => {
 
     return (
         <>
-            <Button buttonName={'Новая запись'} onClick={newPostConfirm} disabled={editMode}/>
+            <Button className={styles.notMobileView} buttonName={'Новая запись'} onClick={newPostConfirm} disabled={editMode}/>
+            <Button className={styles.mobileView} onClick={newPostConfirm} disabled={editMode}>
+                <span className="material-icons">edit</span>
+            </Button>
             {editMode &&
                 <BackDrop>
                     <div className={styles.newPost}>

@@ -1,0 +1,25 @@
+.footerWrap {
+    display: none;
+}
+
+@media all and (max-width: 850px) {
+    .footerWrap {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: var(--beige);
+        height: 45px;
+        display: grid;
+        grid-template-columns: auto auto;
+        justify-content: space-between;
+        align-content: center;
+        grid-gap: 1rem;
+        padding: 1rem;
+    }
+
+    .footerWrap span {
+        cursor: pointer;
+        font-size: 1.8rem;
+    }
+}

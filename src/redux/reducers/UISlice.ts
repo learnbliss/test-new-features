@@ -9,7 +9,7 @@ const initialState: postState = {
 }
 
 export const postSlice = createSlice({
-    name: 'burgerMenu',
+    name: 'UI',
     initialState,
     reducers: {
         toggleViewBurger: (state) => {

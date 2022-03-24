@@ -16,7 +16,7 @@
     box-shadow: 0 3px 5px -3px grey;
 }
 
-.button:active div {
+.button:active span {
     display: inline-block;
     transform: translateY(2px);
 }
@@ -25,6 +25,6 @@
     box-shadow: unset;
 }
 
-.button:active:disabled div {
+.button:active:disabled span {
     transform: unset;
 }

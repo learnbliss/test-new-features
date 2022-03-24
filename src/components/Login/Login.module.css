@@ -1,0 +1,9 @@
+.root {
+    display: block;
+}
+
+@media all and (max-width: 850px) {
+  .root {
+      display: none;
+  }
+}

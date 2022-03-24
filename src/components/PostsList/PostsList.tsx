@@ -41,7 +41,7 @@ const PostsList: React.FC<PostsListProps> = () => {
             <section className={styles.postList}>
                 {posts.length === 0 ?
                     <h3>Посты отсутствуют на сервере</h3> :
-                    <h1>{search? 'Рузультаты поиска' : 'Посты'}:</h1>
+                    <h1>{search? 'Результаты поиска' : 'Посты'}:</h1>
                 }
                 {posts.map((post, i) => (
                     <div key={post.id}>
